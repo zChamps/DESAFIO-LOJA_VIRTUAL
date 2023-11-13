@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
-import AdicionarItensCarrinho from './AdicionarItensCarrinho';
+import ItemCarrinho from './ItemCarrinho';
 import {useSelector} from "react-redux"
 import rootReducer from '../redux/root-reducer';
 
@@ -9,12 +9,13 @@ const ContainerCarrinho = styled.div`
     width:36vw;
     height: 100%;
     background-color: #0F52BA;
+    box-shadow: -5px 0px 6px 0px rgba(0, 0, 0, 0.13);
     position: absolute;
     right: 0;
     top:0;
     z-index: 1;
     box-sizing:border-box;
-    padding: 35px 30px 0 55px;
+    padding: 20px 30px 0 55px;
     color:white;
 `
 
@@ -38,28 +39,74 @@ const ContainerTextoFechar = styled.div`
         font-style: normal;
         font-weight: 700;
         line-height: normal;
+        padding-bottom: 50px
     }
 `
 
 
 const ContainerProdutos = styled.div`
     display:flex;
-    align-items: center;
-    
+    /* align-items: center; */
+    flex-direction: column;
+    gap: 35px;
+    /* background-color: aqua; */
+    height: 450px;
+    overflow-y: auto;
 
-
-    & 
-    .adicionarExcluirProdutos{
-        display:flex;
-    }
 `
+
+const ContainerFinalizarPedido = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    & .finalizarCompra{
+        padding: 15px 0;
+        background: #000;
+        height: 97px;
+        text-align: center;
+        width: 100%;
+        color: #FFF;
+        font-family: Montserrat;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 15px;
+        display:flex;
+        align-items: center;
+        justify-content: center;}
+
+        .totalItens{
+            display: flex;
+            color: #FFF;
+            font-family: Montserrat;
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 15px;
+            padding: 15px 35px;
+            justify-content: space-between;
+            background-color: red;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        
+    
+    
+`   
 
 
 
 
 
 const CarrinhoCompras = ({setMostrarCarrinho, mostrarCarrinho}) => {
-
+    const [valorProdutos, setValorProdutos] = useState(0)
     const {products} = useSelector(rootReducer => rootReducer.cartReducer)
     console.log(products)
   return (
@@ -76,8 +123,16 @@ const CarrinhoCompras = ({setMostrarCarrinho, mostrarCarrinho}) => {
             </ContainerTextoFechar>
 
             <ContainerProdutos>
-                {products.map(product => <AdicionarItensCarrinho product={product}/>)}
+                {products.map(product => <ItemCarrinho product={product} valorProdutos={valorProdutos} setValorProdutos={setValorProdutos}/>)}
             </ContainerProdutos>
+
+            <ContainerFinalizarPedido>
+                <div className='totalItens'>
+                    <p>Total:</p>
+                    <p>R$ {Number(valorProdutos)}</p>
+                </div>
+                <div className='finalizarCompra'><p>Finalizar Compra</p></div>
+            </ContainerFinalizarPedido>
         </ContainerCarrinho>
 
     </div>

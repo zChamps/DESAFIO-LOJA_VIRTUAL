@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import styled from 'styled-components';
-import AdicionarItensCarrinho from './AdicionarItensCarrinho';
+import AdicionarItensCarrinho from './ItemCarrinho';
 import ReceberItens from './ReceberItens';
 import { addProductToCart } from '../redux/cart/actions';
 import { UseSelector } from 'react-redux';
@@ -120,6 +120,7 @@ const BuyButton = styled.div`
 
 const MainComponent = () => {
     const [produtos, setProdutos] = useState([])
+    const [valorProduto, setValorProduto] = useState(0)
     const [listaProdutos, setListaProdutos] = useState([]);
     const url = "https://mks-frontend-challenge-04811e8151e6.herokuapp.com/api/v1/products?page=1&rows=8&sortBy=id&orderBy=ASC"
     // console.log(listaProdutos)
@@ -144,7 +145,7 @@ const MainComponent = () => {
     }, [])
     const dispatch = useDispatch()
     const handleProductClick = (dado) => {
-        dispatch(addProductToCart())
+        dispatch(addProductToCart(dado))
     }
 
 

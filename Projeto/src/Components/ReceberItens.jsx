@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import AdicionarItensCarrinho from './AdicionarItensCarrinho'
+import AdicionarItensCarrinho from './ItemCarrinho'
 
 const ReceberItens = (dadosRecebidos) => {  
   const todosDados = dadosRecebidos.listaProdutos
