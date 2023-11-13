@@ -3,9 +3,14 @@ import styled from 'styled-components';
 import {listaProdutos} from "./MainComponent"
 import ReceberItens from './ReceberItens';
 
+import { removeProductFromCart } from '../redux/cart/actions';
+import {useDispatch, useSelector} from "react-redux"
+
+
 const ContainerProduto = styled.div`
   display:flex;
   flex-direction:column;
+  position: relative;
   
 
   & div{
@@ -86,7 +91,19 @@ const ContainerProduto = styled.div`
     width: 80px;
     height: 40px;
     box-sizing: border-box;
-    padding: 0 10px
+    padding: 0 10px;
+  }
+
+  .closeIcon{
+    padding: 5px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    font-size: 10px;
+    position: absolute;
+    top: -12px;
+    right: -0px;
+    cursor:pointer;
   }
 `
 
@@ -106,7 +123,10 @@ const ItemCarrinho = ({product, setValorProdutos, valorProdutos}) => {
     //   }
     // }, [quantProdutos, product]);
 
-
+    const dispatch = useDispatch()
+    const handleProductClick = (dado) => {
+        dispatch(removeProductFromCart(dado))
+    }
 
 
     return (
@@ -120,16 +140,17 @@ const ItemCarrinho = ({product, setValorProdutos, valorProdutos}) => {
             <div className='containerQuantidade'><p onClick={() => {
               if ( quantProdutos > 1) {setQuantProdutos(
                 quantProdutos - 1)
-                setValorProdutos((prevValor) => prevValor - Number(product.price) * Number(quantProdutos))}
+                setValorProdutos((prevValor) => prevValor - Number(product.price))}
             }}>-</p><span className='quantidadeProduto'>{quantProdutos}</span><p onClick={
               () => {
                 setQuantProdutos(quantProdutos + 1)
-                setValorProdutos((prevValor) => prevValor + Number(product.price) * Number(quantProdutos))}
+                setValorProdutos((prevValor = product.price) => prevValor + Number(product.price))}
             }>+</p></div>
             
             <p className='productPrice'>R$ {product.price * quantProdutos}</p>
-            {/* {setValorProdutos(Number(valorProdutos) + (Number(product.price) * Number(quantProdutos)))} */}
+            <p className='closeIcon' onClick={() => { handleProductClick(product) }}>X</p>
           </div>
+          
           }     
     </ContainerProduto>
     )
