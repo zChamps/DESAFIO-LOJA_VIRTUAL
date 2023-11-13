@@ -55,6 +55,7 @@ const ContainerProdutos = styled.div`
         font-style: normal;
         font-weight: 300;
         line-height: 18px;
+        text-align: justify;
     }
 `
 

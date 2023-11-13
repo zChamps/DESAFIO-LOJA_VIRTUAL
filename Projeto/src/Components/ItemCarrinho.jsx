@@ -111,7 +111,7 @@ const ContainerProduto = styled.div`
 
 const ItemCarrinho = ({product, setValorProdutos, valorProdutos}) => {
 
-  const [quantProdutos, setQuantProdutos] = useState(1)
+  const [quantProdutos, setQuantProdutos] = useState(0)
   
 
     product && console.log(product.name)
