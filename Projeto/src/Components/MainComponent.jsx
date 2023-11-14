@@ -2,11 +2,11 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import styled from 'styled-components';
-import AdicionarItensCarrinho from './ItemCarrinho';
+
 import ReceberItens from './ReceberItens';
 import { addProductToCart } from '../redux/cart/actions';
-import { UseSelector } from 'react-redux';
-import rootReducer from '../redux/root-reducer';
+import { useQuery } from 'react-query';
+import { queryClient } from './queryClientConfig';
 
 
 
@@ -119,8 +119,15 @@ const BuyButton = styled.div`
     cursor:pointer;
 `
 
+const fetchApiData = async () => {
+    const response = await fetch('https://mks-frontend-challenge-04811e8151e6.herokuapp.com/api/v1/products?page=1&rows=8&sortBy=id&orderBy=ASC');
+    const data = await response.json();
+    return data;
+  };
+
+
 const MainComponent = () => {
-    const [produtos, setProdutos] = useState([])
+
     const [valorProduto, setValorProduto] = useState(0)
     const [listaProdutos, setListaProdutos] = useState([]);
     const url = "https://mks-frontend-challenge-04811e8151e6.herokuapp.com/api/v1/products?page=1&rows=8&sortBy=id&orderBy=ASC"
@@ -129,41 +136,28 @@ const MainComponent = () => {
     
 
 
-    useEffect(() => {
 
-        const resgatarDados = async () => {
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-                setProdutos(data);
-            } catch (error) {
-                console.error('Erro ao buscar dados:', error);
-            }
-        }
-
-        resgatarDados()
-
-    }, [])
     const dispatch = useDispatch()
     const handleProductClick = (dado) => {
         dispatch(addProductToCart(dado))
     }
 
+    
+    const { data, isLoading, isError } = useQuery('apiData', fetchApiData, { client: queryClient });
 
-
-
-    const produtosCarregados = produtos.products;
-
-    const adicionarProdutoAoCarrinho = (dado) => {   // aaaaaa
-        const novoProduto = [dado.id, dado.photo, dado.name, dado.price];
-        setListaProdutos((prevListaProdutos) => [...prevListaProdutos, novoProduto]);
-      };
-
+    if (isLoading) {
+        return <p>Carregando...</p>;
+      }
+    
+      if (isError) {
+        return <p>Ocorreu um erro ao buscar os dados.</p>;
+      }
+      const produtosCarregados = data.products
 
     return (<>
         <ContainerMain>
 
-            {produtosCarregados && produtosCarregados.map(dado => {
+            {produtosCarregados.map(dado => {
                 
                 return (
                     <ContainerProdutos key={dado.id}>

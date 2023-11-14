@@ -6,17 +6,18 @@ import rootReducer from '../redux/root-reducer';
 
 const ContainerCarrinho = styled.div`
 
-    width:36vw;
+    width:450px;
     height: 100%;
     background-color: #0F52BA;
     box-shadow: -5px 0px 6px 0px rgba(0, 0, 0, 0.13);
-    position: absolute;
+    position: fixed;
     right: 0;
     top:0;
     z-index: 1;
     box-sizing:border-box;
     padding: 20px 30px 0 55px;
     color:white;
+    
 `
 
 const ContainerTextoFechar = styled.div`
@@ -50,7 +51,7 @@ const ContainerProdutos = styled.div`
     flex-direction: column;
     gap: 35px;
     /* background-color: aqua; */
-    height: 450px;
+    height: 330px;
     overflow-y: auto;
 
 `
@@ -68,7 +69,7 @@ const ContainerFinalizarPedido = styled.div`
     & .finalizarCompra{
         padding: 15px 0;
         background: #000;
-        height: 97px;
+        height: 50px;
         text-align: center;
         width: 100%;
         color: #FFF;
@@ -79,7 +80,8 @@ const ContainerFinalizarPedido = styled.div`
         line-height: 15px;
         display:flex;
         align-items: center;
-        justify-content: center;}
+        justify-content: center;
+        cursor: pointer;}
 
         .totalItens{
             display: flex;
@@ -89,9 +91,9 @@ const ContainerFinalizarPedido = styled.div`
             font-style: normal;
             font-weight: 700;
             line-height: 15px;
-            padding: 15px 35px;
+            padding: 15px 45px;
             justify-content: space-between;
-            background-color: red;
+            /* background-color: red; */
             width: 100%;
             box-sizing: border-box;
         }
